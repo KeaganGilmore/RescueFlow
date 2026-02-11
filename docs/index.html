@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RescueFlow Academy - NSRI Training</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Content Typography */
+        #content {
+            line-height: 1.8;
+            color: #334155;
+        }
+
+        #content h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #003366;
+            margin: 2.5rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        #content h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #003366;
+            margin: 2rem 0 0.75rem 0;
+        }
+
+        #content h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin: 1.5rem 0 0.5rem 0;
+        }
+
+        #content h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #334155;
+            margin: 1.25rem 0 0.5rem 0;
+        }
+
+        #content p {
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        #content ul,
+        #content ol {
+            margin: 0.75rem 0 1.25rem 1.5rem;
+        }
+
+        #content ul {
+            list-style: disc;
+        }
+
+        #content ol {
+            list-style: decimal;
+        }
+
+        #content li {
+            margin-bottom: 0.4rem;
+            font-size: 1.05rem;
+        }
+
+        #content li strong {
+            color: #003366;
+        }
+
+        #content a {
+            color: #CC0000;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
+        #content a:hover {
+            color: #990000;
+        }
+
+        #content blockquote {
+            border-left: 4px solid #CC0000;
+            padding: 1rem 1.25rem;
+            margin: 1.25rem 0;
+            background: #fef2f2;
+            border-radius: 0 0.5rem 0.5rem 0;
+            font-style: italic;
+            color: #6b7280;
+        }
+
+        #content img {
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 100%;
+            height: auto;
+            margin: 1.5rem auto;
+            display: block;
+        }
+
+        #content hr {
+            border: none;
+            border-top: 1px solid #e2e8f0;
+            margin: 2rem 0;
+        }
+
+        #content strong {
+            color: #1e293b;
+        }
+
+        #content iframe {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin: 1.5rem 0;
+        }
+
+        #content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        #content th,
+        #content td {
+            border: 1px solid #e2e8f0;
+            padding: 0.5rem 0.75rem;
+            text-align: left;
+        }
+
+        #content th {
+            background: #f1f5f9;
+            font-weight: 600;
+            color: #003366;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.3s ease-out;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-slate-800 font-sans h-screen flex overflow-hidden">
+
+    <!-- ==================== VIEW: COURSE CATALOG ==================== -->
+    <div id="catalog-view" class="w-full h-full flex flex-col overflow-y-auto">
+        <div class="flex-1 p-6 md:p-12">
+            <header class="mb-12 text-center max-w-4xl mx-auto">
+                <div
+                    class="inline-flex items-center gap-2 bg-red-50 text-[#CC0000] text-sm font-semibold px-4 py-1.5 rounded-full mb-6">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838l-2.727 1.17 1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0z">
+                        </path>
+                    </svg>
+                    NSRI Training Platform
+                </div>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-[#003366] mb-4 tracking-tight">Rescue<span
+                        class="text-[#CC0000]">Flow</span> Academy</h1>
+                <p class="text-lg text-gray-500 max-w-2xl mx-auto">Choose a course to get started. Your progress is
+                    saved automatically.</p>
+            </header>
+
+            <div id="course-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto w-full">
+                <!-- Course Cards injected here -->
+            </div>
+        </div>
+        <footer class="border-t border-gray-100 bg-white/50">
+            <div class="max-w-6xl mx-auto px-6 py-8">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div class="text-center md:text-left">
+                        <p class="text-xs text-gray-400 leading-relaxed max-w-lg">
+                            <strong class="text-gray-500">Disclaimer:</strong> This project is not affiliated with,
+                            endorsed by, or officially connected to the NSRI.
+                            Built by a volunteer to make studying training material easier and faster.
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-5 text-gray-400">
+                        <a href="https://github.com/KeaganGilmore/RescueFlow" target="_blank" title="GitHub"
+                            class="hover:text-gray-600 transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                            </svg>
+                        </a>
+                        <a href="mailto:keagangilmore@gmail.com" title="Email"
+                            class="hover:text-gray-600 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                        </a>
+                        <span class="text-xs">&copy; 2026 Keagan Gilmore</span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ==================== VIEW: LEARNING INTERFACE ==================== -->
+    <div id="learning-view" class="hidden w-full h-full flex">
+        <!-- Sidebar -->
+        <aside id="sidebar"
+            class="w-80 bg-white border-r border-gray-200 flex-shrink-0 flex flex-col transition-transform duration-300 transform -translate-x-full md:translate-x-0 absolute md:relative z-20 h-full shadow-xl md:shadow-none">
+            <div class="p-5 border-b border-gray-100 bg-[#003366] text-white">
+                <h2 class="font-bold text-base leading-tight truncate" id="sidebar-course-title">Module Title</h2>
+                <div class="flex items-center gap-3 mt-3">
+                    <div class="flex-1 bg-white/20 rounded-full h-1.5 overflow-hidden">
+                        <div class="bg-white h-1.5 rounded-full transition-all duration-500" id="progress-bar"
+                            style="width: 0%"></div>
+                    </div>
+                    <span class="text-xs text-gray-300 whitespace-nowrap" id="progress-text">0%</span>
+                </div>
+            </div>
+
+            <nav class="flex-1 overflow-y-auto p-3 space-y-0.5" id="chapter-list">
+                <!-- Chapter items injected here -->
+            </nav>
+
+            <div class="p-3 border-t border-gray-100">
+                <button onclick="returnToCatalog()"
+                    class="w-full flex items-center justify-center gap-2 text-sm text-gray-500 hover:text-[#003366] hover:bg-gray-100 font-medium py-2.5 rounded-lg transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    All Courses
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col h-full overflow-hidden relative w-full">
+            <!-- Top Bar -->
+            <div class="bg-white border-b border-gray-200 px-4 py-3 flex items-center gap-3 z-10 sticky top-0">
+                <button id="open-sidebar" class="md:hidden text-gray-500 hover:text-[#003366] p-1">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+                <button onclick="returnToCatalog()"
+                    class="text-gray-400 hover:text-[#003366] transition-colors flex items-center gap-1 text-sm font-medium"
+                    title="Back to all courses">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
+                        </path>
+                    </svg>
+                    <span class="hidden sm:inline">Courses</span>
+                </button>
+                <span class="text-gray-300">|</span>
+                <span class="font-semibold text-[#003366] truncate text-sm" id="topbar-title">Module</span>
+            </div>
+
+            <!-- Content Area -->
+            <div id="content-container" class="flex-1 overflow-y-auto scroll-smooth">
+                <div class="max-w-3xl mx-auto px-6 py-10 md:py-14">
+                    <div id="content">
+                        <!-- Markdown content injected here -->
+                    </div>
+
+                    <!-- Action Area -->
+                    <div
+                        class="mt-12 pt-6 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center gap-4">
+                        <button id="prev-btn"
+                            class="hidden px-5 py-2.5 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-50 font-medium transition-colors text-sm">
+                            &larr; Previous
+                        </button>
+
+                        <div class="flex gap-3 ml-auto">
+                            <button id="quiz-btn"
+                                class="hidden px-5 py-2.5 bg-[#CC0000] hover:bg-red-700 text-white rounded-lg font-bold shadow-md hover:shadow-lg transition-all text-sm items-center gap-2">
+                                <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
+                                    </path>
+                                </svg>
+                                Quiz
+                            </button>
+                            <button id="next-btn"
+                                class="hidden px-6 py-2.5 bg-[#003366] hover:bg-[#002244] text-white rounded-lg font-bold shadow-md hover:shadow-lg transition-all text-sm">
+                                Next Lesson &rarr;
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Overlay for mobile sidebar -->
+        <div id="sidebar-overlay" class="fixed inset-0 bg-black/40 z-10 hidden md:hidden"></div>
+    </div>
+
+    <!-- ==================== QUIZ MODAL ==================== -->
+    <div id="quiz-modal"
+        class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+        <div
+            class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden animate-fade-in-up">
+            <div class="p-5 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
+                <h3 class="text-lg font-bold text-[#003366]">Knowledge Check</h3>
+                <button id="close-quiz" class="text-gray-400 hover:text-gray-600 transition-colors p-1">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto flex-1">
+                <div id="quiz-container" class="space-y-6"></div>
+                <div id="quiz-result" class="hidden text-center py-8">
+                    <div class="text-5xl mb-4">🎉</div>
+                    <h4 class="text-2xl font-bold text-[#003366] mb-2">Quiz Completed!</h4>
+                    <p class="text-gray-600 mb-6" id="quiz-score-text"></p>
+                    <button id="retry-quiz"
+                        class="px-5 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium text-sm">Try
+                        Again</button>
+                </div>
+            </div>
+            <div class="p-5 border-t border-gray-100 bg-gray-50 flex justify-end">
+                <button id="submit-quiz"
+                    class="px-6 py-2.5 bg-[#003366] hover:bg-[#002244] text-white rounded-lg font-bold shadow-md transition-all text-sm">Submit
+                    Answers</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SCRIPTS ==================== -->
+    <script src="course_data.js"></script>
+    <script>
+        // --- State ---
+        let currentModuleId = null;
+        let currentChapterIndex = 0;
+        let userProgress = JSON.parse(localStorage.getItem('rescueFlowProgress')) || {};
+
+        // --- Selectors ---
+        const views = {
+            catalog: document.getElementById('catalog-view'),
+            learning: document.getElementById('learning-view')
+        };
+        const els = {
+            courseGrid: document.getElementById('course-grid'),
+            sidebar: document.getElementById('sidebar'),
+            sidebarOverlay: document.getElementById('sidebar-overlay'),
+            openSidebarBtn: document.getElementById('open-sidebar'),
+            sidebarCourseTitle: document.getElementById('sidebar-course-title'),
+            topbarTitle: document.getElementById('topbar-title'),
+            chapterList: document.getElementById('chapter-list'),
+            content: document.getElementById('content'),
+            prevBtn: document.getElementById('prev-btn'),
+            nextBtn: document.getElementById('next-btn'),
+            quizBtn: document.getElementById('quiz-btn'),
+            quizModal: document.getElementById('quiz-modal'),
+            closeQuizBtn: document.getElementById('close-quiz'),
+            quizContainer: document.getElementById('quiz-container'),
+            submitQuizBtn: document.getElementById('submit-quiz'),
+            quizResult: document.getElementById('quiz-result'),
+            retryQuizBtn: document.getElementById('retry-quiz'),
+            progressText: document.getElementById('progress-text'),
+            progressBar: document.getElementById('progress-bar'),
+            quizScoreText: document.getElementById('quiz-score-text')
+        };
+
+        // --- Helpers ---
+        function encodeImagePath(md) {
+            // Fix image paths with spaces: ![alt](images/Name With Spaces_p1_img1.png)
+            return md.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, src) => {
+                if (src.startsWith('http')) return match; // don't touch external URLs
+                const encoded = src.split('/').map(part => encodeURIComponent(part)).join('/');
+                return `![${alt}](${encoded})`;
+            });
+        }
+
+        // --- Initialization ---
+        function init() {
+            renderCatalog();
+            els.openSidebarBtn.addEventListener('click', toggleSidebar);
+            els.sidebarOverlay.addEventListener('click', toggleSidebar);
+            els.prevBtn.addEventListener('click', () => navigateChapter(-1));
+            els.nextBtn.addEventListener('click', () => navigateChapter(1));
+            els.quizBtn.addEventListener('click', openQuiz);
+            els.closeQuizBtn.addEventListener('click', closeQuiz);
+            els.submitQuizBtn.addEventListener('click', submitQuiz);
+            els.retryQuizBtn.addEventListener('click', () => openQuiz());
+        }
+
+        // --- Catalog ---
+        function renderCatalog() {
+            els.courseGrid.innerHTML = '';
+            if (!window.COURSE_DATA || Object.keys(window.COURSE_DATA).length === 0) {
+                els.courseGrid.innerHTML = '<p class="text-center text-gray-500 col-span-3 py-20">No course data found. Run <code>python build.py</code> first.</p>';
+                return;
+            }
+
+            Object.values(window.COURSE_DATA).forEach(course => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col cursor-pointer transform hover:-translate-y-1 group border border-gray-100';
+                card.onclick = () => loadCourse(course.id);
+
+                let thumbUrl = course.thumbnail;
+                if (thumbUrl && !thumbUrl.startsWith('http')) {
+                    thumbUrl = thumbUrl.replace(/^docs\//, '');
+                    thumbUrl = thumbUrl.split('/').map(part => encodeURIComponent(part)).join('/');
+                } else if (!thumbUrl) {
+                    thumbUrl = null;
+                }
+
+                const thumbHtml = thumbUrl
+                    ? `<div class="h-44 w-full bg-cover bg-center" style="background-image: url('${thumbUrl}')"></div>`
+                    : `<div class="h-44 w-full bg-gradient-to-br from-[#003366] to-[#1a5276] flex items-center justify-center text-white">
+                        <svg class="w-14 h-14 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                       </div>`;
+
+                const completed = userProgress[course.id]?.completedIds?.length || 0;
+                const total = course.chapters.length;
+                const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+                card.innerHTML = `
+                    ${thumbHtml}
+                    <div class="p-5 flex-1 flex flex-col">
+                        <h3 class="text-lg font-bold text-[#003366] mb-1.5 group-hover:text-[#CC0000] transition-colors leading-snug">${course.title}</h3>
+                        <p class="text-gray-500 text-sm mb-4 flex-1 line-clamp-2">${course.description || "Comprehensive training module."}</p>
+                        <div class="mt-auto">
+                            <div class="flex justify-between text-xs font-medium text-gray-400 mb-1.5">
+                                <span>${total} lessons</span>
+                                <span>${percent}%</span>
+                            </div>
+                            <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                <div class="bg-[#CC0000] h-1.5 rounded-full transition-all duration-500" style="width: ${percent}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                els.courseGrid.appendChild(card);
+            });
+        }
+
+        // --- Course Loading ---
+        function loadCourse(moduleId) {
+            currentModuleId = moduleId;
+            const course = window.COURSE_DATA[moduleId];
+
+            views.catalog.classList.add('hidden');
+            views.learning.classList.remove('hidden');
+
+            els.sidebarCourseTitle.textContent = course.title;
+            els.topbarTitle.textContent = course.title;
+
+            if (!userProgress[moduleId]) {
+                userProgress[moduleId] = { completedIds: [] };
+            }
+
+            renderSidebar();
+            const firstUncompleted = course.chapters.findIndex(ch => !userProgress[moduleId].completedIds.includes(ch.id));
+            loadChapter(firstUncompleted >= 0 ? firstUncompleted : 0);
+        }
+
+        function returnToCatalog() {
+            views.learning.classList.add('hidden');
+            views.catalog.classList.remove('hidden');
+            currentModuleId = null;
+            renderCatalog();
+        }
+
+        function renderSidebar() {
+            const course = window.COURSE_DATA[currentModuleId];
+            els.chapterList.innerHTML = '';
+
+            const completed = userProgress[currentModuleId].completedIds.length;
+            const total = course.chapters.length;
+            const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+            els.progressText.textContent = `${percent}%`;
+            els.progressBar.style.width = `${percent}%`;
+
+            course.chapters.forEach((chapter, index) => {
+                const isCompleted = userProgress[currentModuleId].completedIds.includes(chapter.id);
+                const isActive = index === currentChapterIndex;
+
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all flex items-center gap-2.5 ${isActive
+                    ? 'bg-[#003366] text-white shadow-sm'
+                    : 'text-gray-600 hover:bg-gray-100 hover:text-[#003366]'
+                    }`;
+                btn.onclick = () => {
+                    loadChapter(index);
+                    if (window.innerWidth < 768) toggleSidebar();
+                };
+
+                const icon = isCompleted
+                    ? `<svg class="w-4 h-4 flex-shrink-0 ${isActive ? 'text-green-300' : 'text-green-500'}" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>`
+                    : `<div class="w-4 h-4 rounded-full border-2 flex-shrink-0 ${isActive ? 'border-white/50' : 'border-gray-300'}"></div>`;
+
+                btn.innerHTML = `${icon}<span class="truncate">${chapter.title}</span>`;
+                els.chapterList.appendChild(btn);
+            });
+        }
+
+        function loadChapter(index) {
+            const course = window.COURSE_DATA[currentModuleId];
+            if (index < 0 || index >= course.chapters.length) return;
+
+            currentChapterIndex = index;
+            const chapter = course.chapters[index];
+
+            renderSidebar();
+
+            // Mark completed
+            if (!userProgress[currentModuleId].completedIds.includes(chapter.id)) {
+                userProgress[currentModuleId].completedIds.push(chapter.id);
+                localStorage.setItem('rescueFlowProgress', JSON.stringify(userProgress));
+                renderSidebar();
+            }
+
+            // Render content with encoded image paths
+            const fixedContent = encodeImagePath(chapter.content);
+            els.content.innerHTML = marked.parse(fixedContent);
+            document.getElementById('content-container').scrollTop = 0;
+
+            // Navigation
+            els.prevBtn.classList.toggle('hidden', index === 0);
+            els.nextBtn.classList.toggle('hidden', index === course.chapters.length - 1);
+            els.quizBtn.classList.toggle('hidden', !(chapter.quiz && chapter.quiz.length > 0));
+        }
+
+        function navigateChapter(direction) {
+            loadChapter(currentChapterIndex + direction);
+        }
+
+        function toggleSidebar() {
+            const isClosed = els.sidebar.classList.contains('-translate-x-full');
+            els.sidebar.classList.toggle('-translate-x-full', !isClosed);
+            els.sidebarOverlay.classList.toggle('hidden', !isClosed);
+        }
+
+        // --- Quiz ---
+        function openQuiz() {
+            const chapter = window.COURSE_DATA[currentModuleId].chapters[currentChapterIndex];
+            els.quizContainer.innerHTML = '';
+            els.quizResult.classList.add('hidden');
+            els.submitQuizBtn.classList.remove('hidden');
+            els.quizContainer.classList.remove('hidden');
+
+            chapter.quiz.forEach((q, i) => {
+                const qDiv = document.createElement('div');
+                qDiv.className = 'p-5 rounded-xl border border-gray-200 bg-white';
+                qDiv.innerHTML = `
+                    <p class="font-semibold text-gray-800 mb-3">${i + 1}. ${q.question}</p>
+                    <div class="space-y-2">
+                        ${q.options.map((opt, oi) => `
+                            <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:bg-blue-50 cursor-pointer transition-colors text-sm">
+                                <input type="radio" name="q${i}" value="${oi}" class="w-4 h-4 text-[#003366] focus:ring-[#003366]">
+                                <span class="ml-3 text-gray-700">${opt}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                `;
+                els.quizContainer.appendChild(qDiv);
+            });
+            els.quizModal.classList.remove('hidden');
+        }
+
+        function closeQuiz() {
+            els.quizModal.classList.add('hidden');
+        }
+
+        function submitQuiz() {
+            const chapter = window.COURSE_DATA[currentModuleId].chapters[currentChapterIndex];
+            let score = 0;
+
+            chapter.quiz.forEach((q, i) => {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                const qDiv = els.quizContainer.children[i];
+                qDiv.querySelectorAll('label').forEach(l => l.classList.remove('bg-green-50', 'border-green-400', 'bg-red-50', 'border-red-400'));
+
+                if (selected) {
+                    if (parseInt(selected.value) === q.correct) {
+                        score++;
+                        selected.closest('label').classList.add('bg-green-50', 'border-green-400');
+                    } else {
+                        selected.closest('label').classList.add('bg-red-50', 'border-red-400');
+                        qDiv.querySelectorAll('label')[q.correct].classList.add('bg-green-50', 'border-green-400');
+                    }
+                } else {
+                    qDiv.querySelectorAll('label')[q.correct].classList.add('bg-green-50', 'border-green-400');
+                }
+            });
+
+            els.submitQuizBtn.classList.add('hidden');
+            els.quizContainer.classList.add('hidden');
+            els.quizResult.classList.remove('hidden');
+            els.quizScoreText.textContent = `You scored ${score} out of ${chapter.quiz.length}`;
+        }
+
+        // Start
+        init();
+    </script>
+</body>
+
+</html>
