@@ -145,13 +145,6 @@ __pycache__/
 *.pyc
 *.pyo
 
-# Training PDFs (not redistributed)
-pdfs/
-
-# Generated output (rebuild with `python build.py`)
-docs/course_data.js
-docs/images/
-
 # OS files
 .DS_Store
 Thumbs.db
